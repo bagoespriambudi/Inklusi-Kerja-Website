@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'jobseeker'])->default('jobseeker');
+            $table->boolean('is_premium')->default(false);
+            $table->timestamp('premium_expires_at')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->text('address')->nullable();
+            $table->string('resume_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

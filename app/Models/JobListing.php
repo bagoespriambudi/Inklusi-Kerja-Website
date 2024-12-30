@@ -20,16 +20,16 @@ class JobListing extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'company_id',
+        'job_category_id',
         'title',
         'description',
-        'company_id',
-        'employment_type',
-        'salary_min',
-        'salary_max',
-        'experience_level',
         'requirements',
-        'responsibilities',
-        'category_id',
+        'benefits',
+        'employment_type',
+        'experience_level',
+        'location',
+        'salary_range',
         'deadline',
         'is_active'
     ];
@@ -40,8 +40,6 @@ class JobListing extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'salary_min' => 'decimal:2',
-        'salary_max' => 'decimal:2',
         'deadline' => 'date',
         'is_active' => 'boolean'
     ];
@@ -49,7 +47,7 @@ class JobListing extends Model
     /**
      * Get the category that owns the job listing
      */
-    public function category(): BelongsTo
+    public function jobCategory(): BelongsTo
     {
         return $this->belongsTo(JobCategory::class);
     }
@@ -87,25 +85,5 @@ class JobListing extends Model
             $q->whereNull('deadline')
               ->orWhere('deadline', '>=', now());
         })->active();
-    }
-
-    /**
-     * Get the formatted salary range
-     */
-    public function getSalaryRangeAttribute(): string
-    {
-        if (!$this->salary_min && !$this->salary_max) {
-            return 'Negotiable';
-        }
-
-        if (!$this->salary_max) {
-            return 'From Rp ' . number_format($this->salary_min, 0, ',', '.');
-        }
-
-        if (!$this->salary_min) {
-            return 'Up to Rp ' . number_format($this->salary_max, 0, ',', '.');
-        }
-
-        return 'Rp ' . number_format($this->salary_min, 0, ',', '.') . ' - Rp ' . number_format($this->salary_max, 0, ',', '.');
     }
 } 

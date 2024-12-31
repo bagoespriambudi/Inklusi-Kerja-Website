@@ -2,40 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
-     * Show the form for editing the user's profile.
+     * Display the user's profile form.
      */
-    public function edit()
+    public function edit(Request $request): View
     {
         return view('profile.edit', [
-            'user' => Auth::user(),
+            'user' => $request->user(),
         ]);
     }
 
     /**
-     * Update the user's profile.
+     * Update the user's profile information.
      */
-    public function update(UpdateProfileRequest $request)
+    public function update(Request $request): RedirectResponse
     {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . Auth::id()],
+            'phone_number' => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:255'],
+            'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:2048'],
+        ]);
+
         $user = Auth::user();
-        $data = $request->validated();
-
-        // Handle avatar upload
-        if ($request->hasFile('avatar')) {
-            // Delete old avatar if exists
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
-            }
-
-            // Store new avatar
-            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
-        }
+        $data = $request->only(['name', 'email', 'phone_number', 'address']);
 
         // Handle resume upload
         if ($request->hasFile('resume')) {
@@ -45,14 +46,29 @@ class ProfileController extends Controller
             }
 
             // Store new resume
-            $data['resume_path'] = $request->file('resume')->store('resumes', 'public');
+            $resumePath = $request->file('resume')->store('resumes', 'public');
+            $data['resume_path'] = $resumePath;
         }
 
-        foreach ($data as $key => $value) {
-            $user->{$key} = $value;
-        }
-        $user->save();
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            
+            // Hapus avatar lama jika ada
+            if ($request->user()->avatar) {
+                Storage::disk('public')->delete($request->user()->avatar);
+            }
 
-        return redirect()->route('profile.edit')->with('success', 'Profil berhasil diperbarui.');
+            // Simpan avatar baru
+            $avatarPath = $avatar->store('avatars', 'public');
+            
+            // Update path avatar di database
+            $request->user()->update([
+                'avatar' => $avatarPath
+            ]);
+        }
+
+        $user->update($data);
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 } 

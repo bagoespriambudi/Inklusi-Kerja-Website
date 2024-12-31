@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Models\JobApplication;
 use App\Models\Review;
 use App\Models\SubscriptionTransaction;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -29,6 +29,7 @@ class User extends Authenticatable
         'phone_number',
         'address',
         'resume_path',
+        'avatar',
         'is_premium',
         'premium_expires_at'
     ];

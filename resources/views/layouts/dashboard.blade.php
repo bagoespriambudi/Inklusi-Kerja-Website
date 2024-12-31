@@ -29,221 +29,218 @@
         <!-- Main Content -->
         <div class="md:pl-64 flex flex-col min-h-screen">
             <!-- Navbar -->
-            <nav class="sticky top-0 z-50 flex items-center justify-between px-4 py-4 bg-white border-b border-gray-200 md:px-6">
-                <div class="flex items-center flex-1">
-                    <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none focus:text-gray-700 md:hidden">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
+            <header class="sticky top-0 z-50 flex h-16 bg-white border-b border-gray-200">
+                <!-- Mobile menu button -->
+                <button @click="sidebarOpen = true" class="px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900 md:hidden">
+                    <span class="sr-only">Open sidebar</span>
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </button>
 
-                <div class="flex items-center space-x-4">
-                    <!-- Subscription CTA Button -->
-                    <div x-data="{ showSubsModal: false }">
-                        <button @click="showSubsModal = true" 
-                                class="inline-flex items-center px-4 py-2 border border-gray-800 text-sm font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
-                            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                            </svg>
-                            Upgrade Plan
-                        </button>
-
-                        <!-- Subscription Plans Modal -->
-                        <div x-show="showSubsModal" 
-                             class="fixed inset-0 z-50 overflow-y-auto" 
-                             aria-labelledby="modal-title" 
-                             role="dialog" 
-                             aria-modal="true"
-                             style="display: none;">
-                            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                                <!-- Background overlay -->
-                                <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" 
-                                     aria-hidden="true"
-                                     @click="showSubsModal = false"></div>
-
-                                <!-- Modal panel -->
-                                <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6">
-                                    <div class="absolute top-0 right-0 pt-4 pr-4">
-                                        <button @click="showSubsModal = false" class="text-gray-400 hover:text-gray-500 transition-colors duration-200">
-                                            <span class="sr-only">Close</span>
-                                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    </div>
-
-                                    <div class="text-center mb-8">
-                                        <h3 class="text-2xl font-bold text-gray-900" id="modal-title">
-                                            Pilih Paket Berlangganan
-                                        </h3>
-                                        <p class="mt-2 text-sm text-gray-500">
-                                            Tingkatkan akses Anda dengan berlangganan paket premium
-                                        </p>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                                        <!-- Basic Plan -->
-                                        <div class="relative flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm hover:border-gray-300 hover:shadow-md transition-all duration-200">
-                                            <div class="flex-1">
-                                                <h3 class="text-lg font-semibold text-gray-900">Paket Basic</h3>
-                                                <p class="mt-4 flex items-baseline text-gray-900">
-                                                    <span class="text-3xl font-bold tracking-tight">Rp50.000</span>
-                                                    <span class="ml-1 text-sm font-semibold text-gray-500">/bulan</span>
-                                                </p>
-                                                <p class="mt-6 text-gray-500">Ideal untuk pencari kerja pemula</p>
-
-                                                <ul role="list" class="mt-6 space-y-4">
-                                                    <li class="flex space-x-3">
-                                                        <svg class="h-5 w-5 flex-shrink-0 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-sm text-gray-500">Maksimal 15 lamaran per hari</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <a href="{{ route('subscription.checkout', ['plan' => 1]) }}" 
-                                               class="mt-8 block w-full rounded-md border border-gray-800 bg-white py-2 text-center text-sm font-semibold text-gray-800 hover:bg-gray-50 transition-colors duration-200">
-                                                Pilih Paket Basic
-                                            </a>
-                                        </div>
-
-                                        <!-- Professional Plan -->
-                                        <div class="relative flex flex-col rounded-lg border-2 border-gray-800 bg-white p-6 shadow-md hover:shadow-lg transition-all duration-200">
-                                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gray-800 px-4 py-1 text-sm font-semibold text-white">
-                                                Popular
-                                            </div>
-                                            <div class="flex-1">
-                                                <h3 class="text-lg font-semibold text-gray-900">Paket Professional</h3>
-                                                <p class="mt-4 flex items-baseline text-gray-900">
-                                                    <span class="text-3xl font-bold tracking-tight">Rp100.000</span>
-                                                    <span class="ml-1 text-sm font-semibold text-gray-500">/bulan</span>
-                                                </p>
-                                                <p class="mt-6 text-gray-500">Untuk pencari kerja yang serius</p>
-
-                                                <ul role="list" class="mt-6 space-y-4">
-                                                    <li class="flex space-x-3">
-                                                        <svg class="h-5 w-5 flex-shrink-0 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-sm text-gray-500">Maksimal 30 lamaran per hari</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <a href="{{ route('subscription.checkout', ['plan' => 2]) }}" 
-                                               class="mt-8 block w-full rounded-md border border-gray-800 bg-gray-800 py-2 text-center text-sm font-semibold text-white hover:bg-gray-700 transition-colors duration-200">
-                                                Pilih Paket Professional
-                                            </a>
-                                        </div>
-
-                                        <!-- Ultimate Plan -->
-                                        <div class="relative flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm hover:border-gray-300 hover:shadow-md transition-all duration-200">
-                                            <div class="flex-1">
-                                                <h3 class="text-lg font-semibold text-gray-900">Paket Ultimate</h3>
-                                                <p class="mt-4 flex items-baseline text-gray-900">
-                                                    <span class="text-3xl font-bold tracking-tight">Rp150.000</span>
-                                                    <span class="ml-1 text-sm font-semibold text-gray-500">/bulan</span>
-                                                </p>
-                                                <p class="mt-6 text-gray-500">Untuk akses tanpa batas</p>
-
-                                                <ul role="list" class="mt-6 space-y-4">
-                                                    <li class="flex space-x-3">
-                                                        <svg class="h-5 w-5 flex-shrink-0 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                        <span class="text-sm text-gray-500">Lamaran tidak terbatas</span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <a href="{{ route('subscription.checkout', ['plan' => 3]) }}" 
-                                               class="mt-8 block w-full rounded-md border border-gray-800 bg-white py-2 text-center text-sm font-semibold text-gray-800 hover:bg-gray-50 transition-colors duration-200">
-                                                Pilih Paket Ultimate
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Notifications -->
-                    <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" 
-                                class="text-gray-500 hover:text-gray-700 focus:outline-none">
-                            <span class="sr-only">View notifications</span>
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-
-                        <!-- Notifications Dropdown -->
-                        <div x-show="open"
-                             @click.away="open = false"
-                             x-transition:enter="transition ease-out duration-100"
-                             x-transition:enter-start="transform opacity-0 scale-95"
-                             x-transition:enter-end="transform opacity-100 scale-100"
-                             x-transition:leave="transition ease-in duration-75"
-                             x-transition:leave-start="transform opacity-100 scale-100"
-                             x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-                             style="display: none;">
-                            <div class="py-1">
-                                <div class="px-4 py-2 text-sm text-gray-700">
-                                    Tidak ada notifikasi
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Profile Dropdown -->
-                    <div x-data="{ open: false }" class="relative">
-                        <button @click="open = !open" 
-                                class="flex items-center space-x-2 focus:outline-none">
-                            @if(auth()->user()->avatar)
-                                <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
-                                    alt="{{ auth()->user()->name }}"
-                                    class="h-8 w-8 rounded-full object-cover">
-                            @else
-                                <div class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                <!-- Right section -->
+                <div class="flex flex-1 justify-between px-4 md:px-6">
+                    <div class="flex flex-1"></div>
+                    <div class="ml-4 flex items-center space-x-4 md:ml-6 md:pr-4">
+                        <!-- Subscription CTA Button -->
+                        @if(!auth()->user()->is_premium)
+                            <div x-data="{ showSubsModal: false }">
+                                <button @click="showSubsModal = true" 
+                                    class="hidden md:inline-flex items-center px-4 py-2 border border-gray-800 text-sm font-medium rounded-lg text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
+                                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                                     </svg>
-                                </div>
-                            @endif
-                            <span class="text-sm font-medium text-gray-700">{{ auth()->user()->name }}</span>
-                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
+                                    Upgrade Premium
+                                </button>
 
-                        <div x-show="open"
-                             @click.away="open = false"
-                             x-transition:enter="transition ease-out duration-100"
-                             x-transition:enter-start="transform opacity-0 scale-95"
-                             x-transition:enter-end="transform opacity-100 scale-100"
-                             x-transition:leave="transition ease-in duration-75"
-                             x-transition:leave-start="transform opacity-100 scale-100"
-                             x-transition:leave-end="transform opacity-0 scale-95"
-                             class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-                             style="display: none;">
-                            <div class="py-1">
-                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Profil
-                                </a>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Keluar
-                                    </button>
-                                </form>
+                                <!-- Subscription Plans Modal -->
+                                <div x-show="showSubsModal" 
+                                    class="fixed inset-0 z-[70] overflow-y-auto" 
+                                    aria-labelledby="modal-title" 
+                                    role="dialog" 
+                                    aria-modal="true"
+                                    style="display: none;">
+                                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                        <!-- Background overlay -->
+                                        <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" 
+                                            aria-hidden="true"
+                                            @click="showSubsModal = false"></div>
+
+                                        <!-- Modal panel -->
+                                        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:p-6">
+                                            <div class="absolute top-0 right-0 pt-4 pr-4">
+                                                <button @click="showSubsModal = false" class="text-gray-400 hover:text-gray-500">
+                                                    <span class="sr-only">Close</span>
+                                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+
+                                            <div class="text-center mb-8">
+                                                <h3 class="text-2xl font-bold text-gray-900" id="modal-title">
+                                                    Pilih Paket Berlangganan
+                                                </h3>
+                                                <p class="mt-2 text-sm text-gray-500">
+                                                    Tingkatkan akses Anda dengan berlangganan paket premium
+                                                </p>
+                                            </div>
+
+                                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                                <!-- Basic Plan -->
+                                                <div class="relative flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm hover:border-gray-300 hover:shadow-md transition-all duration-200">
+                                                    <div class="flex-1">
+                                                        <h3 class="text-lg font-semibold text-gray-900">Paket Basic</h3>
+                                                        <p class="mt-4 flex items-baseline text-gray-900">
+                                                            <span class="text-3xl font-bold tracking-tight">Rp50.000</span>
+                                                            <span class="ml-1 text-sm font-semibold text-gray-500">/bulan</span>
+                                                        </p>
+                                                        <p class="mt-6 text-gray-500">Ideal untuk pencari kerja pemula</p>
+
+                                                        <ul role="list" class="mt-6 space-y-4">
+                                                            <li class="flex space-x-3">
+                                                                <svg class="h-5 w-5 flex-shrink-0 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                                </svg>
+                                                                <span class="text-sm text-gray-500">Maksimal 15 lamaran per hari</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <a href="{{ route('subscription.checkout', ['plan' => 1]) }}" 
+                                                        class="mt-8 block w-full rounded-lg border border-gray-800 bg-white py-2 text-center text-sm font-semibold text-gray-800 hover:bg-gray-50">
+                                                        Pilih Paket Basic
+                                                    </a>
+                                                </div>
+
+                                                <!-- Professional Plan -->
+                                                <div class="relative flex flex-col rounded-lg border-2 border-gray-800 bg-white p-6 shadow-md hover:shadow-lg transition-all duration-200">
+                                                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gray-800 px-4 py-1 text-sm font-semibold text-white">
+                                                        Popular
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <h3 class="text-lg font-semibold text-gray-900">Paket Professional</h3>
+                                                        <p class="mt-4 flex items-baseline text-gray-900">
+                                                            <span class="text-3xl font-bold tracking-tight">Rp100.000</span>
+                                                            <span class="ml-1 text-sm font-semibold text-gray-500">/bulan</span>
+                                                        </p>
+                                                        <p class="mt-6 text-gray-500">Untuk pencari kerja yang serius</p>
+
+                                                        <ul role="list" class="mt-6 space-y-4">
+                                                            <li class="flex space-x-3">
+                                                                <svg class="h-5 w-5 flex-shrink-0 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                                </svg>
+                                                                <span class="text-sm text-gray-500">Maksimal 30 lamaran per hari</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <a href="{{ route('subscription.checkout', ['plan' => 2]) }}" 
+                                                        class="mt-8 block w-full rounded-lg border border-gray-800 bg-gray-800 py-2 text-center text-sm font-semibold text-white hover:bg-gray-700">
+                                                        Pilih Paket Professional
+                                                    </a>
+                                                </div>
+
+                                                <!-- Ultimate Plan -->
+                                                <div class="relative flex flex-col rounded-lg border border-gray-200 bg-white p-6 shadow-sm hover:border-gray-300 hover:shadow-md transition-all duration-200">
+                                                    <div class="flex-1">
+                                                        <h3 class="text-lg font-semibold text-gray-900">Paket Ultimate</h3>
+                                                        <p class="mt-4 flex items-baseline text-gray-900">
+                                                            <span class="text-3xl font-bold tracking-tight">Rp150.000</span>
+                                                            <span class="ml-1 text-sm font-semibold text-gray-500">/bulan</span>
+                                                        </p>
+                                                        <p class="mt-6 text-gray-500">Untuk akses tanpa batas</p>
+
+                                                        <ul role="list" class="mt-6 space-y-4">
+                                                            <li class="flex space-x-3">
+                                                                <svg class="h-5 w-5 flex-shrink-0 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                                </svg>
+                                                                <span class="text-sm text-gray-500">Lamaran tidak terbatas</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <a href="{{ route('subscription.checkout', ['plan' => 3]) }}" 
+                                                        class="mt-8 block w-full rounded-lg border border-gray-800 bg-white py-2 text-center text-sm font-semibold text-gray-800 hover:bg-gray-50">
+                                                        Pilih Paket Ultimate
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        <!-- Premium Badge -->
+                        @if(auth()->user()->is_premium && auth()->user()->premium_expires_at > now())
+                            <div class="hidden md:flex items-center">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                    </svg>
+                                    Premium
+                                </span>
+                            </div>
+                        @endif
+
+                        <!-- Profile dropdown -->
+                        <div class="relative" x-data="{ open: false }">
+                            <button @click="open = !open" class="flex items-center space-x-3 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 rounded-full">
+                                <div class="flex items-center space-x-3">
+                                    <img class="h-8 w-8 rounded-full object-cover border-2 border-gray-200" 
+                                         src="{{ auth()->user()->avatar ? Storage::url(auth()->user()->avatar) : asset('images/logo.png') }}" 
+                                         alt="{{ auth()->user()->name }}">
+                                    <div class="hidden md:flex md:items-center">
+                                        <span class="text-sm font-medium text-gray-900">{{ auth()->user()->name }}</span>
+                                        <svg class="ml-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <!-- Dropdown menu -->
+                            <div x-show="open" 
+                                @click.away="open = false"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-0 mt-3 w-56 rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none"
+                                role="menu">
+                                <div class="px-1 py-1">
+                                    <a href="{{ route('profile.edit') }}" 
+                                        class="group flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-150" 
+                                        role="menuitem">
+                                        <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        Profil Saya
+                                    </a>
+                                </div>
+                                <div class="px-1 py-1">
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" 
+                                            class="group flex w-full items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-150" 
+                                            role="menuitem">
+                                            <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                            </svg>
+                                            Keluar
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </nav>
+            </header>
 
             <!-- Content Wrapper -->
             <main class="flex-1 p-6 relative z-0">

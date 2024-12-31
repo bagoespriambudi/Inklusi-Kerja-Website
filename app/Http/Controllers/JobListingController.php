@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\JobCategory;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobListingController extends Controller
 {
@@ -83,10 +84,18 @@ class JobListingController extends Controller
      */
     public function show(JobListing $jobListing)
     {
-        $jobListing->load(['company', 'jobCategory', 'applications']);
+        $hasApplied = false;
+
+        if (Auth::check() && Auth::user()->isJobSeeker()) {
+            $hasApplied = Auth::user()
+                ->jobApplications()
+                ->where('job_listing_id', $jobListing->id)
+                ->exists();
+        }
 
         return view('job-listings.show', [
-            'jobListing' => $jobListing
+            'jobListing' => $jobListing,
+            'hasApplied' => $hasApplied,
         ]);
     }
 

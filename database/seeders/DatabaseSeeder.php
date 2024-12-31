@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             JobCategorySeeder::class,
             CompanySeeder::class,
             SubscriptionPlanSeeder::class,
+            JobListingSeeder::class,
         ]);
     }
 }

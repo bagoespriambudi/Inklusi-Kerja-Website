@@ -27,7 +27,7 @@ class JobCategory extends Model
      */
     public function jobListings(): HasMany
     {
-        return $this->hasMany(JobListing::class, 'category_id');
+        return $this->hasMany(JobListing::class, 'job_category_id');
     }
 
     /**
